@@ -8,6 +8,11 @@
 	<artifactId>StatelessEjbAndCdiExperiment</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
+	<licenses>
+		<license>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+		</license>
+	</licenses>
 	<dependencies>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
