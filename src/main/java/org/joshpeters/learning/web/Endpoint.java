@@ -1,12 +1,15 @@
 package org.joshpeters.learning.web;
 
 import com.google.common.base.Preconditions;
+import edu.ilstu.bits.common.mail.MailSender;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.Setter;
 import org.joshpeters.learning.service.AccessLoggerService;
 import org.joshpeters.learning.service.PassOrFailService;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -17,16 +20,16 @@ import java.net.URI;
 
 @Stateless
 //@TransactionAttribute( TransactionAttributeType.NEVER )
-@TransactionAttribute( TransactionAttributeType.REQUIRED )
-@Path( "/" )
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@Path("/")
 public class Endpoint
 {
 	@Inject
-	@Setter( AccessLevel.PACKAGE )
+	@Setter(AccessLevel.PACKAGE)
 	private AccessLoggerService accessLoggerService;
 
 	@Inject
-	@Setter( AccessLevel.PACKAGE )
+	@Setter(AccessLevel.PACKAGE)
 	private PassOrFailService passOrFailService;
 
 	@PostConstruct
@@ -35,11 +38,11 @@ public class Endpoint
 		Preconditions.checkNotNull( accessLoggerService, "no logger service provided--I can't do my job under these conditions!" );
 	}
 
-	@Path( "/doLog" )
-	@Produces( "text/html" )
+	@Path("/doLog")
+	@Produces("text/html")
 	@GET
 	public Response logForm(
-		@DefaultValue( "notPresent" ) @QueryParam( "logResult" ) String logResult
+		@DefaultValue("notPresent") @QueryParam("logResult") String logResult
 	)
 	{
 		StringBuilder sb = new StringBuilder();
@@ -55,10 +58,10 @@ public class Endpoint
 		return Response.ok( sb.toString(), "text/html" ).build();
 	}
 
-	@Path( "/doLog" )
-	@Produces( "text/html" )
+	@Path("/doLog")
+	@Produces("text/html")
 	@POST
-	public Response logFormAction( @FormParam( "thing" ) String thingToLog )
+	public Response logFormAction( @FormParam("thing") String thingToLog )
 	{
 		final boolean logResult = accessLoggerService.logAccess( thingToLog );
 		passOrFailService.run();
